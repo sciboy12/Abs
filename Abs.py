@@ -1,7 +1,6 @@
 from numpy import interp
 from Xlib import X, display
 from fractions import Fraction
-from screeninfo import get_monitors
 import evdev
 import subprocess
 import sys
