@@ -49,8 +49,6 @@ Get touchpad min and max values automatically
 
 ## Done:
 
-Implement automatic display resolution detection
-
 Get screen resolution automatically
 
 Touchpad aspect ratio compensation
