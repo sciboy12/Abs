@@ -41,15 +41,16 @@ Fill in the min and max values from earlier
 Also change /dev/input/event5 to the path representing your touchpad
 
 ## Todo
+
 Add config file handling
 
 Get touchpad min and max values automatically
-
-Get screen resolution automatically
-
-Touchpad aspect ratio compensation
 
 
 ## Done:
 
 Implement automatic display resolution detection
+
+Get screen resolution automatically
+
+Touchpad aspect ratio compensation
