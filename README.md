@@ -1,6 +1,6 @@
 # Abs
 
-I created this program as a Linux alternative for apsun's AbsoluteTouch, as I had recently switched to Linux, and couldn't find any alternatives.
+I created this program as a Linux alternative for [apsun's AbsoluteTouch](https://github.com/apsun/AbsoluteTouch), as I had recently switched to Linux, and couldn't find any alternatives.
 
 Do note that I am still very new to Python (And Git, for that matter).
 
