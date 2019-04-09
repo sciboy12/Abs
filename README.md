@@ -1,6 +1,6 @@
 # Abs
 
-I created this program as a Linux alternative for [apsun's AbsoluteTouch](https://github.com/apsun/AbsoluteTouch), as I had recently switched to Linux, and couldn't find any alternatives.
+I created this program as a Linux alternative for apsun's [AbsoluteTouch](https://github.com/apsun/AbsoluteTouch), as I had recently switched to Linux, and couldn't find any alternatives.
 
 Do note that I am still very new to Python (And Git, for that matter).
 
@@ -18,7 +18,7 @@ python3-xlib
 numpy
 
 ## Setup and configuration
-Optional - run setup.sh as sudo (This automates installation of the prerequisites)
+Optional - run setup.sh as root (This automates installation of the prerequisites)
 
 Or manually install:
 ```
@@ -40,6 +40,16 @@ Fill in the min and max values from earlier
 
 Also change /dev/input/event5 to the path representing your touchpad
 
+## Running
+For running Abs, you have two options:
+Run Abs as root:
+
+Or, alternatively, add your user to the "input" group:
+```
+usermod -a -G input $USER
+```
+Abs will automatically request root permissions if needed.
+
 ## Todo
 
 Add config file handling
@@ -52,3 +62,5 @@ Get touchpad min and max values automatically
 Get screen resolution automatically
 
 Touchpad aspect ratio compensation
+
+Request root only if needed
