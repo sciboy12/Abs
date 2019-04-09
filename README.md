@@ -4,12 +4,14 @@ I created this program as a Linux alternative for apsun's [AbsoluteTouch](https:
 
 Do note that I am still very new to Python (And Git, for that matter).
 
+Please do not hesitate if you have any sugesstions, questions etc.
+
 Tested on Linux Mint 19.1
 
 ## Prerequisites
 A laptop with a Synaptics touchpad (others may work, check if the device reports ABS_X and ABS_Y)
 
-Python 3.6.7 (other versions are untested, but might work)
+Python 3.6.7 (other versions are untested, but might work).
 
 python3-evdev
 
@@ -18,7 +20,7 @@ python3-xlib
 numpy
 
 ## Setup and configuration
-Optional - run setup.sh as root (This automates installation of the prerequisites)
+Optional - run setup.sh as root (note that this script will not work on non Ubuntu/Debian-based distros.)
 
 Or manually install:
 ```
@@ -32,23 +34,24 @@ Run:
 ```
 sudo evtest
 ```
-Then select your touchpad, then press Ctrl-C and scroll up to get the min and max values (Look for ABS_X and ABS_Y)
+Then select your touchpad, then press Ctrl-C and scroll up to get the min and max values (look for ABS_X and ABS_Y).
 
-Open Abs.py in a text editor or IDE
+Open Abs.py in a text editor or IDE.
 
-Fill in the min and max values from earlier
+Fill in the min and max values from earlier.
 
-Also change /dev/input/event5 to the path representing your touchpad
+Also change /dev/input/event5 to the path representing your touchpad.
 
 ## Running
 For running Abs, you have two options:
-Run Abs as root:
 
-Or, alternatively, add your user to the "input" group:
+
+Add your user to the "input" group:
 ```
 usermod -a -G input $USER
 ```
-Abs will automatically request root permissions if needed.
+
+Or, alternatively, just run Abs as-is, as it will automatically request root permissions if needed.
 
 ## Todo
 
