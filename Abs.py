@@ -1,7 +1,13 @@
+#!/usr/bin/env python3
+
 from numpy import interp
 from Xlib import X, display
 import evdev
-from config import Config
+#from config import Config
+import getpass
+import os
+import sys
+import grp
 #import yaml
 
 
@@ -15,7 +21,22 @@ touchpad_y_min = 1062
 touchpad_y_max = 4690
 # End of config
 
-# Misc stuff to help speed up the loop
+
+# Check if root is needed
+# Get list of users associated with the 'input' group
+groups = grp.getgrnam('input')
+
+# Get current username
+user = getpass.getuser()
+value = [user] in groups
+#euid = os.geteuid()
+if value == False and user != 'root':
+#if value == False and euid != 0:
+    # Request root permissions
+    args = ['sudo', sys.executable] + sys.argv + [os.environ]
+    os.execlpe('sudo', *args)
+
+# Misc stuff to help reduce lag
 d = display.Display()
 s = d.screen()
 root = s.root
