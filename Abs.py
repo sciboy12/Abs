@@ -86,6 +86,13 @@ touchpad_y_max_scaled = touchpad_y_max # * (ratio_dec)
 
 print('Press Ctrl-C to quit.')
 
+# grab the touchpad, preventing the OS from moving the cursor
+device.grab()
+
+# Placeholder values to prevent a NameError
+interp_x = 0
+interp_y = 0
+
 try:
     for event in read_loop():
 
@@ -93,19 +100,23 @@ try:
         if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_X':
 
             # Map the Touchpad X limits to the screen resolution
+            #
             interp_x = int(interp(event.value,[touchpad_x_min,touchpad_x_max],[0,display_resolution_x]))
 
         #Check for ABS_Y events
         if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_Y':
             
             # Map the Touchpad Y limits to the screen resolution
+            
             interp_y = int(interp(event.value,[touchpad_y_min_scaled,touchpad_y_max_scaled],[0,display_resolution_y]))
             
             # Set the cursor position
-            warp_pointer(interp_x,interp_y)
+        warp_pointer(interp_x,interp_y)
 
             # Sync the changes
-            sync()
+        sync()
+
+
             
 # Exit when Ctrl-C is pressed
 except KeyboardInterrupt:    
