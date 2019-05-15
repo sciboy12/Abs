@@ -2,9 +2,10 @@
 
 from numpy import interp
 from Xlib import X, display
-import evdev
+from evdev import InputDevice, ecodes, events
+from time import sleep
 #from config import Config
-import getpass
+from getpass import getuser
 import os
 import sys
 import grp
@@ -12,13 +13,22 @@ import grp
 
 
 # Config - FILL THESE IN
-touchpadid='/dev/input/event5'
+touchpadid ='/dev/input/event5'
 
 touchpad_x_min = 1266
 touchpad_x_max = 5676
 
 touchpad_y_min = 1062
 touchpad_y_max = 4690
+
+# Tradeoff between CPU usage and lag.
+# Valid options are: lowlag, lowcpu.
+perfmode = 'lowcpu'
+
+# Enable touchpad buttons/gestures.
+# Do note that when set to True, both Abs and the OS will be controlling the cursor.
+# This results in single-frame jumps in the cursor position for fast movements.
+buttons_on = False
 # End of config
 
 
@@ -27,23 +37,26 @@ touchpad_y_max = 4690
 groups = grp.getgrnam('input')
 
 # Get current username
-user = getpass.getuser()
+user = getuser()
 value = [user] in groups
 #euid = os.geteuid()
 if value == False and user != 'root':
 #if value == False and euid != 0:
+    
     # Request root permissions
     args = ['sudo', sys.executable] + sys.argv + [os.environ]
     os.execlpe('sudo', *args)
+
 
 # Misc stuff to help reduce lag
 d = display.Display()
 s = d.screen()
 root = s.root
-device = evdev.InputDevice(touchpadid)
+device = InputDevice(touchpadid)
 read_loop = device.read_loop
-bytype = evdev.ecodes.bytype
-EV_ABS = evdev.events.EV_ABS
+read_one = device.read_one
+bytype = ecodes.bytype
+EV_ABS = events.EV_ABS
 warp_pointer = root.warp_pointer
 self = touchpadid
 sync = d.sync
@@ -84,41 +97,69 @@ touchpad_y_max_scaled = touchpad_y_max # * (ratio_dec)
 #print('Touchpad Y Resolution(Scaled) =',str(touchpad_y_min_scaled) + ',' + str(touchpad_y_max_scaled))
 #eventtype = read_loop.event.type
 
+
+
+
+
 print('Press Ctrl-C to quit.')
-
-# grab the touchpad, preventing the OS from moving the cursor
-device.grab()
-
-# Placeholder values to prevent a NameError
-interp_x = 0
-interp_y = 0
-
 try:
-    for event in read_loop():
-
-        #Check for ABS_X events
-        if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_X':
-
-            # Map the Touchpad X limits to the screen resolution
-            #
-            interp_x = int(interp(event.value,[touchpad_x_min,touchpad_x_max],[0,display_resolution_x]))
-
-        #Check for ABS_Y events
-        if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_Y':
+    # grab the touchpad, preventing the OS from moving the cursor
+    # This also has the side-effect of disabling the touchpad buttons/gestures
+    if buttons_on != True:
+        device.grab()
+    
+    if perfmode == 'lowlag':
+        # Placeholder values to prevent a NameError
+        interp_x = 0
+        interp_y = 0
+        
+        for event in read_loop():
             
-            # Map the Touchpad Y limits to the screen resolution
-            
-            interp_y = int(interp(event.value,[touchpad_y_min_scaled,touchpad_y_max_scaled],[0,display_resolution_y]))
-            
+            #Check for ABS_X events
+            if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_X':
+
+                # Map the Touchpad X limits to the screen resolution
+                interp_x = int(interp(event.value,[touchpad_x_min,touchpad_x_max],[0,display_resolution_x]))
+
+            #Check for ABS_Y events
+            if event.type == EV_ABS and bytype[event.type][event.code] == 'ABS_Y':
+                
+                # Map the Touchpad Y limits to the screen resolution
+                interp_y = int(interp(event.value,[touchpad_y_min_scaled,touchpad_y_max_scaled],[0,display_resolution_y]))
+                
             # Set the cursor position
-        warp_pointer(interp_x,interp_y)
+            warp_pointer(interp_x,interp_y)
 
             # Sync the changes
-        sync()
+            sync()
 
 
-            
+    elif perfmode == 'lowcpu':
+        # Placeholder values to prevent a NameError
+        y_new=1
+        y_old=1
+        x_new=1
+        x_old=1
+        
+        for event in device.read_loop():
+            if event.type == ecodes.EV_ABS and event.code == ecodes.ABS_X:
+                x_new = event.value 
+            if event.type == ecodes.EV_ABS and event.code == ecodes.ABS_Y:
+                y_new = event.value
+           
+            if x_old != x_new or y_old != y_new:
+                warp_pointer(int(interp(x_new,[touchpad_x_min,touchpad_x_max],[0,display_resolution_x])),\
+                int(interp(y_new,[touchpad_y_min_scaled,touchpad_y_max_scaled],[0,display_resolution_y])))
+                sync()
+           
+
+            if event.type == ecodes.EV_ABS and event.code == ecodes.ABS_X:
+                x_old = event.value
+            if event.type == ecodes.EV_ABS and event.code == ecodes.ABS_Y:
+                y_old = event.value
+
 # Exit when Ctrl-C is pressed
-except KeyboardInterrupt:    
+except KeyboardInterrupt:   
     print('\nExiting...')
     exit()
+
