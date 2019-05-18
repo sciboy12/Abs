@@ -7,22 +7,11 @@ sleep 10
 printf "Starting installation\n"
 sleep 0.5
 
-printf "Updating APT package lists...\n"
-sleep 2
-sudo apt-get update
+printf "Installing python3-pip"
+sleep 0.25
+apt install python3-pip
 
-printf "Installing evtest...\n"
-sleep 2
-sudo apt-get install evtest
+printf "Installing python-xlib, evdev and numpy"
+pip3 install python-xlib evdev numpy
 
-printf "Installing python3-evdev...\n"
-sleep 2
-sudo apt-get install python3-evdev
-
-printf "Installing python3-xlib...\n"
-sleep 2
-python3 -m pip install python3-xlib
-
-printf "Installing numpy...\n"
-sleep 2
-python3 -m pip install numpy
+printf "Done."
