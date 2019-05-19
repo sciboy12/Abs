@@ -41,10 +41,11 @@ I have not yet implemented a config file, so all configuration must be done in t
 
 See the config section of Abs.py for more info.
 
-
 ## Todo
 
 Add config file handling
+
+Add Windows support
 
 ## Done:
 
