@@ -41,6 +41,10 @@ I have not yet implemented a config file, so all configuration must be done in t
 
 See the config section of Abs.py for more info.
 
+## Offcial Discord
+https://discord.gg/vKJfPyU
+Feel free to hang out, chat, and discuss Abs and other projects.
+
 ## Todo
 
 Add config file handling
