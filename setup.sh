@@ -9,7 +9,7 @@ sleep 0.5
 
 printf "Installing python3-pip"
 sleep 0.25
-apt install python3-pip
+sudo apt install python3-pip
 
 printf "Installing python-xlib, evdev and numpy"
 pip3 install python-xlib evdev numpy
