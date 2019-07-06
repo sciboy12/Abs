@@ -4,29 +4,25 @@ I created this program as a Linux alternative for apsun's [AbsoluteTouch](https:
 
 Do note that I am still very new to Python (And Git, for that matter).
 
-Please do not hesitate if you have any sugesstions, questions etc.
+Please do not hesitate if you have any suggesstions, questions etc.
 
-Tested on Linux Mint 19.1
+Tested on Linux Mint 19.1 and Debian 10
 
 ## Prerequisites
-* A laptop with a Synaptics touchpad (others may work, check if the device reports ABS_X and ABS_Y)
+* A laptop with a Synaptics/Elantech touchpad (others may work, check if the device reports ABS_X and ABS_Y)
 
-* Python 3.6.7 (other versions are untested, but might work).
+* Python3
 
-* python3-evdev
-
-* python3-xlib
-
-* numpy
+* Python3 packages: python-xlib evdev numpy
 
 ## Setup
 Optional - run setup.sh as root (note that this script will not work on non Ubuntu/Debian-based distros.)
 
 Or manually install:
 ```
-sudo apt-get update
-sudo apt-get install evtest python3-evdev
-pip3 install python3-xlib numpy
+sudo apt update
+sudo apt install python3-pip
+pip3 install python-xlib evdev numpy
 ```
 
 ## Note:
@@ -41,7 +37,7 @@ I have not yet implemented a config file, so all configuration must be done in t
 
 See the config section of Abs.py for more info.
 
-## Offcial Discord
+## Official Discord
 https://discord.gg/vKJfPyU
 Feel free to hang out, chat, and discuss Abs and other projects.
 
@@ -59,4 +55,4 @@ Touchpad aspect ratio compensation
 
 Request root only if needed
 
-Get touchpad limits and path automatically(thanks RotatingSpinner)
+Get touchpad limits and path automatically

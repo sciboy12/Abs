@@ -84,5 +84,4 @@ try:
                 if event.type == ecodes.EV_ABS and event.code == ecodes.ABS_Y:
                         y_old=event.value
 except:
-        device.ungrab
         print("\nExiting")
