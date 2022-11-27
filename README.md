@@ -1,3 +1,9 @@
+# Note:
+
+This software is no longer being updated, mainly due to Python's performance limitations. (see [Abs-C](https://github.com/sciboy12/Abs-C) for a replacement, allowing for significantly reduced latency and CPU usage, as well as Wayland support.)
+
+I might also archive this repo at some point.
+
 # Abs
 
 I created this program as a Linux alternative for apsun's [AbsoluteTouch](https://github.com/apsun/AbsoluteTouch), as I had recently switched to Linux, and couldn't find any alternatives.
